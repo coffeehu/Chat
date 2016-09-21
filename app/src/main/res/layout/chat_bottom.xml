@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"  >
+
+    <EditText
+        android:id="@+id/edit"
+        android:layout_width="0dp"
+        android:layout_weight="5"
+        android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/button"
+        android:background="@drawable/send_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="发送"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="7dp"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/sendimg"
+        android:layout_width="0dp"
+        android:padding="5dp"
+        android:src="@drawable/send_img_button"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+         />
+
+</LinearLayout>

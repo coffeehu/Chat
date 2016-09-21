@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+    android:background="@color/white"
+android:layout_height="wrap_content" android:id="@+id/rl"  android:layout_marginTop="3dp" >
+<ImageView
+    android:id="@+id/avatar"
+    android:src="@drawable/avator"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_margin="15dp"
+    android:scaleType="centerCrop" />
+
+<TextView
+    android:id="@+id/frdId"
+    android:layout_marginLeft="15dp"
+    android:layout_toRightOf="@+id/avatar"
+    android:layout_alignTop="@+id/avatar"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    android:textSize="18dp"
+    android:text="author"/>
+
+<TextView
+    android:id="@+id/number"
+    android:layout_width="28dp"
+    android:layout_height="28dp"
+    android:text="0"
+    android:textSize="10dp"
+    android:layout_alignTop="@+id/frdId"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginRight="25dp"
+    android:layout_marginEnd="25dp" />
+
+<TextView
+    android:id="@+id/latestContent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="content"
+    android:textSize="15dp"
+    android:layout_below="@+id/frdId"
+    android:layout_alignLeft="@+id/frdId"
+    android:layout_alignStart="@+id/frdId" />
+
+
+
+</RelativeLayout>
