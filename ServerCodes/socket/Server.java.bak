@@ -1,0 +1,133 @@
+import com.google.gson.Gson;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+import java.sql.*;
+
+/**
+ * Created by hc on 2016/8/30.
+ */
+public class Server {
+    private ConnectionThread connectionThread;
+    private ArrayList<MyMessage> messageList = new ArrayList<>();
+    public static HashMap<String, ConnectionThread> conns = new HashMap<String, ConnectionThread>();
+    private static final int PORT = 55555;
+    private ServerSocket serverSocket = null;
+
+    private ConnectionThread.OnMessageListener logListener = new ConnectionThread.OnMessageListener() {
+        @Override
+        public void onReceive(MyMessage myMessage) {
+	    System.out.println("loglistener onreceive(),myMessage ="+myMessage.toString());
+	    Info info = new Info();
+	    //----------------login-----------------------
+            if(myMessage.type.equals("login")){
+	    	    System.out.println("--is login!loglistener onreceive() type ="+myMessage.type+",id ="+myMessage.id+",password ="+myMessage.password);
+		DbHelper db = new DbHelper();
+		db.connect();
+		String sql = "select * from chat where account = '"+myMessage.id+"' and password = '"+myMessage.password+"';";
+        	ResultSet rs = db.select(sql);
+		try{
+		   if(rs.next() == true){
+                        conns.put(myMessage.id, connectionThread);
+	    	        System.out.println("login success! password ="+rs.getString("password"));
+
+			//find friend list:
+		        //String sql2 = "select * from "+myMessage.id;
+		        String sql2 = "select * from hc";
+			info.id = myMessage.id;
+			info.online = true;
+			info.type = "loginsuccess";
+			ResultSet rs2 = db.select(sql2);
+			while(rs2.next()){
+				Friend friend = new Friend();
+				friend.id = rs2.getString("account");
+				info.friends.add(friend); 
+				System.out.println("friens : "+rs2.getString("account"));
+			}
+			Gson gson = new Gson();
+			String data = gson.toJson(info);
+		        connectionThread.sendMessage(data);
+
+		   }else{
+		        System.out.println("login fail!");
+			info.type = "loginfail";
+			Gson gson = new Gson();
+			String data = gson.toJson(info);
+		        connectionThread.sendMessage(data);
+		   }
+		}catch(SQLException e){e.printStackTrace();}
+
+	    //----------------reg-----------------------
+            }else if(myMessage.type.equals("reg")){
+		System.out.println("---is reg! id = "+myMessage.id);
+		DbHelper db = new DbHelper();
+		db.connect();
+		String sql = "select * from chat where account = '"+myMessage.id+"';";
+        	ResultSet rs = db.select(sql);
+		try{
+		    if(rs.next() == true){
+		        connectionThread.sendMessage("regfail");
+			System.out.println("----regfail");
+		    }else{
+			String sql2 = "insert into chat(account,password) values('"+myMessage.id+"','"+myMessage.password+"')";
+			if(db.insert(sql2)) System.out.println("insert success!");
+		        connectionThread.sendMessage("regsuccess");
+			System.out.println("----regsuccess!");
+		    }
+		}catch(SQLException e){e.printStackTrace();}
+	    }
+        }
+    };
+
+    private ConnectionThread.OnMessageListener msgListener = new ConnectionThread.OnMessageListener() {
+        @Override
+        public void onReceive(MyMessage myMessage) {
+	    System.out.println("msglistener onreceive(),myMessage ="+myMessage.toString());
+            if(myMessage.type.equals("message")){
+                //try {
+	    	System.out.println("--is message!msglistener onreceive() type ="+myMessage.type+", destid ="+myMessage.destId+",id ="+myMessage.id);
+                    ConnectionThread connectionThread = (ConnectionThread) conns.get(myMessage.getDestId());
+		    System.out.println("--get conn ="+conns.get(myMessage.getDestId().toString()));
+		    myMessage.localType = "frd";
+                    connectionThread.sendMessage(myMessage);
+		    //System.out.println("--write data ="+data);
+                //}catch (IOException e){e.printStackTrace();}
+            }
+        }
+    };
+
+    private void start(){
+        try {
+            serverSocket = new ServerSocket(PORT);
+            System.out.println("start server, port: "+PORT);
+
+            while (true){
+                Socket socket = serverSocket.accept();
+                System.out.println("client has connect");
+                connectionThread = new ConnectionThread(socket);
+                connectionThread.addMessageListener(logListener);
+                connectionThread.addMessageListener(msgListener);
+                connectionThread.connect();
+
+            }
+
+        }catch (IOException e){e.printStackTrace();}
+    }
+
+
+    public static void main(String args[]){
+        Server server = new Server();
+        server.start();
+    }
+
+}
+
