@@ -10,11 +10,11 @@ Linux + Tomcat + MySQL ，java 实现。
 
 
 
-二、功能：
+二、功\r\n能：
 
 1、初始页：
 
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/splash.jpeg)
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/splash.jpeg) 
 
 
 
