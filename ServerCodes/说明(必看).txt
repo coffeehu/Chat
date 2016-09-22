@@ -1,0 +1,15 @@
+
+服务器端有两段代码：http 和 socket
+
+
+http，一个 httpServlet，放在相应的 tomcat 目录下。主函数为 HelloWorld.java。
+
+功能：用于接收和发送 http 请求。比如客户端的注册、登录、添加好友的操作。
+
+
+socket，主函数为 Server.java，在任意目录下运行即可。
+
+功能，socket 连接，聊天信息的转发。
+
+
+注意：不要运行 start.sh 文件，会造成误删除。因为只是这是基于我的目录路径下的脚本文件。
