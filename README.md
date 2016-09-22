@@ -13,11 +13,11 @@ Linux + Tomcat + MySQL ，java 实现。
 
 
 
-2、注册：  
+2、注册，重名判断：  
 ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/reg.jpeg)  
 
 
-3、登录：
+3、登录：  
 ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/login.jpeg)  
 
 
@@ -34,14 +34,12 @@ Linux + Tomcat + MySQL ，java 实现。
 
 
 7、添加好友：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add.jpeg)  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add2.jpeg)  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add2.jpeg) 
+ 
 
 
 8、对话窗口：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat.jpeg)  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat2.jpeg)  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat3.jpeg)  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat1.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat2.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat3.jpeg)  
 
 发送图片、表情功能暂未完成
 
