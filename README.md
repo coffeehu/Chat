@@ -6,35 +6,31 @@ Linux + Tomcat + MySQL ，java 实现。
 
 
 
-##二、客户端功能：  
+##二、客户端功能：    
 
 1、初始页：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/splash.jpeg)   
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/splash.jpeg)     
 
 
 
 2、注册，重名判断：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/reg.jpeg)  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/reg.jpeg)    
 
 
 3、登录：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/login.jpeg)  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/login.jpeg)    
 
 
 4、消息列表，离线可接收消息：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/messages.jpeg)  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/messages.jpeg)    
 
 
-5、好友列表之关注，若互相关注则会标出：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/watch.jpeg)  
-
-
-6、好友列表之粉丝：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/fans.jpeg)  
+5、好友列表采取[关注]与[粉丝]的模式，若互相关注则会标出：  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/watch.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/fans.jpeg)    
 
 
 7、添加好友：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add2.jpeg) 
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/add2.jpeg)    
  
 
 
