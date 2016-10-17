@@ -1,10 +1,12 @@
 package com.example.hc.chat.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,20 +16,30 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.hc.chat.adapter.ChatListAdapter;
+import com.example.hc.chat.adapter.EmotionPagerAdapter;
+import com.example.hc.chat.adapter.GridViewAdapter;
 import com.example.hc.chat.util.ConnectionThread;
 import com.example.hc.chat.MyApplication;
 import com.example.hc.chat.R;
 import com.example.hc.chat.data.MyMessage;
 import com.example.hc.chat.fragment.MessageFragment;
+import com.example.hc.chat.util.EmotionUtil;
+import com.example.hc.chat.util.SoftKeyboardUtil;
+import com.example.hc.chat.util.SpanStringUtil;
 import com.example.hc.chat.view.ChatBottom;
 import com.example.hc.chat.view.MainTitle;
 import com.google.gson.Gson;
@@ -49,15 +61,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private String id; //我的 id
     private ConnectionThread connectionThread;
     private List<MyMessage> messages = new ArrayList<>();
+    private List<GridView> emotionViews;
+    private List<String> emotionNames;
+    private int softKeyboardHeight;
 
     private RecyclerView chatList;
     private ChatListAdapter adapter;
     private EditText editText;
     private Button button;
-    private ImageView sendimg;
+    private ImageView sendimg, emotion_button;
     private MainTitle title;
-    private LinearLayout chat_ll;
+    private LinearLayout chat_ll, chat_emotion_ll;
     private ChatBottom chat_bottom;
+    private ViewPager chat_emotion_vp;
+    private int chat_emotion_ll_height;
+
+    private SoftKeyboardUtil softKeyboardUtil;
 
     private ConnectionThread.OnMessageListener listener = new ConnectionThread.OnMessageListener() {
         @Override
@@ -89,6 +108,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         myApplication = (MyApplication) getApplication();
 
+        softKeyboardHeight = myApplication.getSoftKeyboardHeight();
+
         Intent intent = getIntent();
         messages = (ArrayList<MyMessage>) intent.getSerializableExtra("messages");
         if(messages == null) messages = new ArrayList<>();
@@ -99,14 +120,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         connectionThread.addMessageListener(listener);
 
         initView();
+        initEmotionData();
+        initListener();
         adapter = new ChatListAdapter(ChatActivity.this, messages);
         chatList.setAdapter(adapter);
+
+        EmotionPagerAdapter emotionPagerAdapter = new EmotionPagerAdapter(emotionViews);
+        chat_emotion_vp.setAdapter(emotionPagerAdapter);
     }
 
     private void initView(){
         chat_bottom = (ChatBottom) findViewById(R.id.chat_bottom);
         editText = chat_bottom.editText;
         editText.addTextChangedListener(this);
+
+        softKeyboardUtil = new SoftKeyboardUtil(ChatActivity.this, editText);
+
         button = chat_bottom.button;
         button.setOnClickListener(this);
         sendimg = chat_bottom.sendimg;
@@ -117,8 +146,69 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         title = (MainTitle) findViewById(R.id.chat_title);
         title.setTitle("与"+frdId+"对话");
 
+        chat_emotion_ll =  (LinearLayout) findViewById(R.id.chat_emotion_ll);
+
+        emotion_button = chat_bottom.emotionButton;
+        emotion_button.setOnClickListener(this);
+
         chat_ll = (LinearLayout) findViewById(R.id.chat_ll);
 
+        chat_emotion_vp = (ViewPager) findViewById(R.id.chat_emotion_vp);
+    }
+
+
+    private void initEmotionData(){
+        emotionViews = new ArrayList<>();
+        emotionNames = new ArrayList<>();
+        for(String emojiName : EmotionUtil.getEmojiMap().keySet()){
+            emotionNames.add(emojiName);
+            if(emotionNames.size() == 20){
+                GridView gv = createGridView(emotionNames);
+                emotionViews.add(gv);
+                emotionNames = new ArrayList<>();
+            }
+        }
+
+        if(emotionNames.size() > 0){
+            GridView gv = createGridView(emotionNames);
+            emotionViews.add(gv);
+        }
+    }
+
+    private GridView createGridView( List<String> emotionNames){
+        GridView gv = new GridView(ChatActivity.this);
+        gv.setNumColumns(7); // 7 列
+
+        //--------;
+        gv.setPadding(10, 50, 10, 50);
+        //gv.setHorizontalSpacing(50);
+        gv.setVerticalSpacing(50); //两行之间的间距
+        //设置GridView的宽高
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(100, 100);
+        gv.setLayoutParams(params); // ?????? 去掉也无影响
+        //--------
+
+        GridViewAdapter adapter = new GridViewAdapter(ChatActivity.this, emotionNames);
+        gv.setAdapter(adapter);
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GridViewAdapter gridViewAdapter = (GridViewAdapter) parent.getAdapter();
+                String emotionName = gridViewAdapter.getItem(position);
+
+                int curPosition = editText.getSelectionStart();
+                StringBuilder sb = new StringBuilder(editText.getText().toString());
+                sb.insert(curPosition, emotionName);
+                editText.setText(SpanStringUtil.getEmotion(ChatActivity.this, sb.toString(), editText));
+                editText.setSelection(curPosition + emotionName.length());
+                //Toast.makeText(getActivity(),emotionName,Toast.LENGTH_SHORT).show();
+            }
+        });
+        return gv;
+    }
+
+
+    private void initListener(){
 
         chat_ll.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -128,12 +218,33 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) chatList.getLayoutParams();
 
+                if(softKeyboardUtil.getSoftKeyboardHeight() !=0) softKeyboardHeight = softKeyboardUtil.getSoftKeyboardHeight();
+                Log.d("emotiontest","softh :"+softKeyboardHeight);
+                LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) chat_emotion_ll.getLayoutParams();
+                if(softKeyboardHeight != lp2.height) {
+                    lp2.height = softKeyboardHeight;
+                    chat_emotion_ll.setLayoutParams(lp2);
+                }
+
+
+
                 int statusBarHeight = r.top;
 
-                int h = r.bottom - title.getHeight() - chat_bottom.getHeight() - statusBarHeight;
+                if(chat_emotion_ll.isShown()){
+                    chat_emotion_ll_height = chat_emotion_ll.getHeight();
+                }else {
+                    chat_emotion_ll_height = 0;
+                }
+
+                int h = r.bottom - title.getHeight() - chat_bottom.getHeight() - statusBarHeight - chat_emotion_ll_height;
+
+
+                //Log.d("emotiontest","emotionllheight :"+chat_emotion_ll_height);
+                //Log.d("emotiontest","softkeyboardheight :"+softKeyboardUtil.getSoftKeyboardHeight());
+
 
                 if(h != lp.height){
-                   lp.height = h;
+                    lp.height = h;
                     //chat_ll.requestLayout();
                     chatList.setLayoutParams(lp);
                 }
@@ -141,7 +252,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        editText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(chat_emotion_ll.isShown()) chat_emotion_ll.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
     }
+
 
     //handler.obtainMessage(0, data).sendToTarget();
 
@@ -186,15 +306,33 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sendimg:
                 sendImg();
                 break;
+            case R.id.emotion_button:
+                initEmotionBar();
+                break;
             default:
                 break;
         }
     }
 
+
+    private void initEmotionBar(){
+        if(chat_emotion_ll.isShown()){
+            chat_emotion_ll.setVisibility(View.GONE);
+            softKeyboardUtil.showSoftKeyboard();
+        }else {
+//            if(softKeyboardUtil.softKeyboardIsShown()) softKeyboardUtil.hideSoftKeyboard();
+            softKeyboardUtil.hideSoftKeyboard();
+            chat_emotion_ll.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+
+
+
     private void sendImg(){
 
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test);
         String imgData = bitmapToBase64(bitmap);
         MyMessage myMessage = new MyMessage();
         myMessage.setId(id);

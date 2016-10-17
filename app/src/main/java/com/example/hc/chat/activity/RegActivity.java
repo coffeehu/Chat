@@ -75,7 +75,7 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
         myId = id.getText().toString();
         myPsw = psw.getText().toString();
-        HttpUtil.sendHttpRequest("http://123.56.15.171:8080/HelloWorld", myId, myPsw, "register", new HttpCallbackListener() {
+        HttpUtil.sendHttpRequest("http://120.25.235.230:8080/HelloWorld", myId, myPsw, "register", new HttpCallbackListener() {
             @Override
             public void onSuccess(final String response) {
                 runOnUiThread(new Runnable() {
@@ -139,7 +139,7 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
             //如果用户输入框不为空
             if(myId != null && myId.length()>0) {
                 registerEnable = true;
-                HttpUtil.sendHttpRequest("http://123.56.15.171:8080/HelloWorld", myId, null, "select", new HttpCallbackListener() {
+                HttpUtil.sendHttpRequest("http://120.25.235.230:8080/HelloWorld", myId, null, "select", new HttpCallbackListener() {
                     @Override
                     public void onSuccess(String response) {
                         Log.d("chattest", "----Reg onFocusChange() response : " + response);

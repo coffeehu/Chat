@@ -24,6 +24,8 @@ import java.util.List;
 
 /**
  * Created by hc on 2016/9/7.
+ *
+ * 主页面之消息页
  */
 public class MessageFragment extends Fragment {
     private MyApplication myApplication;

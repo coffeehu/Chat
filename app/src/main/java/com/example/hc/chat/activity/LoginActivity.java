@@ -36,7 +36,7 @@ import com.google.gson.Gson;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
     private MyApplication myApplication;
-    private static final String IP = "123.56.15.171";
+    private static final String IP = "120.25.235.230";
     private static final int PORT = 55555;
     private ConnectionThread connectionThread;
 
@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                  * 封装的 HttpURLConnection 类，发送 post 请求到 Servelet。
                  * 参数： 地址， id ，密码，类型（login / register / select / watch 4 种），回调接口
                  */
-                HttpUtil.sendHttpRequest("http://123.56.15.171:8080/HelloWorld", myId, myPsw, "login", new HttpCallbackListener() {
+                HttpUtil.sendHttpRequest("http://120.25.235.230:8080/HelloWorld", myId, myPsw, "login", new HttpCallbackListener() {
                     @Override
                     public void onSuccess(String response) {
                         Log.d("tmptestt","response :"+response);

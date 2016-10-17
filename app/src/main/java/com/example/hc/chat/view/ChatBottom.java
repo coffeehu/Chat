@@ -15,7 +15,7 @@ import com.example.hc.chat.R;
  */
 public class ChatBottom extends LinearLayout {
     public Button button;
-    public ImageView sendimg;
+    public ImageView sendimg, emotionButton;
     public EditText editText;
 
     public ChatBottom(Context context){
@@ -28,6 +28,7 @@ public class ChatBottom extends LinearLayout {
         button = (Button) findViewById(R.id.button);
         sendimg = (ImageView) findViewById(R.id.sendimg);
         editText = (EditText) findViewById(R.id.edit);
+        emotionButton = (ImageView) findViewById(R.id.emotion_button);
     }
 
 }

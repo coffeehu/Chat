@@ -3,6 +3,14 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"  >
 
+    <ImageView
+        android:id="@+id/emotion_button"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:src="@drawable/ic_emotion" />
+
     <EditText
         android:id="@+id/edit"
         android:layout_width="0dp"
@@ -11,22 +19,23 @@
     <Button
         android:id="@+id/button"
         android:background="@drawable/send_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_width="50dp"
+        android:layout_height="33dp"
         android:text="发送"
         android:layout_margin="5dp"
         android:layout_marginBottom="7dp"
         android:textColor="@color/white"
         android:textSize="13dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/sendimg"
         android:layout_width="0dp"
         android:padding="5dp"
         android:src="@drawable/send_img_button"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
          />
 
 </LinearLayout>

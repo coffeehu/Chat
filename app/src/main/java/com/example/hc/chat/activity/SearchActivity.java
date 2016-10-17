@@ -50,7 +50,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HttpUtil.sendHttpRequest("http://123.56.15.171:8080/HelloWorld", data, null, "select", new HttpCallbackListener() {
+                HttpUtil.sendHttpRequest("http://120.25.235.230:8080/HelloWorld", data, null, "select", new HttpCallbackListener() {
                             @Override
                             public void onSuccess(final String response) {
 

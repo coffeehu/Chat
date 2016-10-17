@@ -75,7 +75,7 @@ public class UserActivity extends AppCompatActivity {
     private void watchFriend(){
         String myId = ((MyApplication) getApplication()).getId();
         String hisId = this.hisId;
-        HttpUtil.sendHttpRequest("http://123.56.15.171:8080/HelloWorld", myId, hisId, "watch", new HttpCallbackListener() {
+        HttpUtil.sendHttpRequest("http://120.25.235.230:8080/HelloWorld", myId, hisId, "watch", new HttpCallbackListener() {
             @Override
             public void onSuccess(String response) {
                 Log.d("UserActivitytest","ressponse ="+response);

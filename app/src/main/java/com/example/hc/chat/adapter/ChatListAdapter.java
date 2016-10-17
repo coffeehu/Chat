@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.hc.chat.R;
 import com.example.hc.chat.activity.ChatActivity;
 import com.example.hc.chat.data.MyMessage;
+import com.example.hc.chat.util.SpanStringUtil;
 
 import java.util.List;
 
@@ -59,28 +60,32 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Log.d("tmptesttest","bitmapString : "+bitmapString);
             if (holder instanceof MeHolder) {
                 if(bitmapString != null){
+                    ((MeHolder)holder).meimg.setAdjustViewBounds(true);
                     Bitmap bitmap = ChatActivity.base64ToBitmap(bitmapString);
-                    ChatActivity.zoomImage(bitmap,80,80);
+                    ChatActivity.zoomImage(bitmap,160,160);
                     ((MeHolder)holder).meimg.setVisibility(View.VISIBLE);
                     ((MeHolder)holder).metext.setVisibility(View.GONE);
                     ((MeHolder)holder).meimg.setImageBitmap(bitmap);
                 }else {
                     ((MeHolder)holder).meimg.setVisibility(View.GONE);
                     ((MeHolder)holder).metext.setVisibility(View.VISIBLE);
-                    ((MeHolder) holder).metext.setText(content);
+                    //((MeHolder) holder).metext.setText(content);
+                    ((MeHolder) holder).metext.setText(SpanStringUtil.getEmotion(context, content, ((MeHolder) holder).metext));
                 }
             } else if (holder instanceof FrdHolder) {
                 if(bitmapString  != null){
-                    Log.d("chatimgtest","bitmap : "+bitmapString);
+                    //Log.d("chatimgtest","bitmap : "+bitmapString);
+                    ((FrdHolder)holder).frdimg.setAdjustViewBounds(true);
                     Bitmap bitmap = ChatActivity.base64ToBitmap(bitmapString);
-                    ChatActivity.zoomImage(bitmap,80,80);
+                    ChatActivity.zoomImage(bitmap,160,160);
                     ((FrdHolder)holder).frdimg.setVisibility(View.VISIBLE);
                     ((FrdHolder)holder).frdtext.setVisibility(View.GONE);
                     ((FrdHolder)holder).frdimg.setImageBitmap(bitmap);
                 }else {
                     ((FrdHolder)holder).frdimg.setVisibility(View.GONE);
                     ((FrdHolder)holder).frdtext.setVisibility(View.VISIBLE);
-                    ((FrdHolder) holder).frdtext.setText(content);
+                    //((FrdHolder) holder).frdtext.setText(content);
+                    ((FrdHolder) holder).frdtext.setText(SpanStringUtil.getEmotion(context, content, ((FrdHolder) holder).frdtext));
                 }
             }
         }

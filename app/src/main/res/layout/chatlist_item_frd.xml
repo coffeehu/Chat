@@ -15,16 +15,18 @@
 
     <TextView
         android:id="@+id/frdtext"
+        android:gravity="center_vertical"
         android:background="@drawable/chatlist_item_frd_bak"
         android:textSize="20dp"
         android:layout_marginTop="15dp"
-        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/frdimg"
         android:background="@drawable/chatlist_item_frd_bak"
+        android:maxWidth="160dp"
+        android:maxHeight="160dp"
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

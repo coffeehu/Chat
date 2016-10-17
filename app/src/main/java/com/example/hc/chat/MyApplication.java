@@ -19,6 +19,7 @@ public class MyApplication extends Application {
     private List<Friend> watchList;
     private List<Friend> fansList;
     private HashMap<String, List<MyMessage>> messagesMap = new HashMap<>();
+    private int softKeyboardHeight;
 
     public void setId(String id) {
         this.id = id;
@@ -44,6 +45,10 @@ public class MyApplication extends Application {
         this.messagesMap = messagesMap;
     }
 
+    public void setSoftKeyboardHeight(int softKeyboardHeight) {
+        this.softKeyboardHeight = softKeyboardHeight;
+    }
+
     public String getId() {
         return id;
     }
@@ -66,5 +71,9 @@ public class MyApplication extends Application {
 
     public HashMap<String, List<MyMessage>> getMessagesMap() {
         return messagesMap;
+    }
+
+    public int getSoftKeyboardHeight() {
+        return softKeyboardHeight;
     }
 }

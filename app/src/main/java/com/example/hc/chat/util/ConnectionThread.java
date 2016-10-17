@@ -21,7 +21,7 @@ import java.util.List;
  * Created by hc on 2016/8/31.
  */
 public class ConnectionThread extends Thread {
-    private  String ip = "123.56.15.171";
+    private  String ip = "120.25.235.230";
     private  int port = 55555;
     private Socket socket;
     private BufferedReader reader;
