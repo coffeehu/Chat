@@ -1,5 +1,7 @@
 # Chat，一个基于 socket 的即时通讯 app(demo)  
-
+  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/2-chat.png)  
+  
 
 ##一、服务器端：
 Linux + Tomcat + MySQL ，java 实现。   
