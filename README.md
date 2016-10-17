@@ -35,8 +35,8 @@ Linux + Tomcat + MySQL ，java 实现。
 
 
 8、对话窗口：  
-![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat1.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat2.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat3.jpeg)  
+![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat1.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat2.jpeg) ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat3.jpeg)   ![image](https://github.com/coffeehu/Chat/blob/master/README-Img/chat4.jpeg)
 
-发送图片、表情功能暂未完成。  
-信息离线缓存、上传头像、发现附近人、发送录音功能暂未制作。
+发送图片功能暂未完成。  
+信息离线缓存、上传头像、发现附近人、发送录音功能暂未完成。
 
