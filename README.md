@@ -4,7 +4,8 @@
   
 
 ##一、服务器端：
-Linux + Tomcat + MySQL ，java 实现。   
+Linux + Tomcat + MySQL ，
+Java 实现： socket 用于消息通讯；Servlet 用于登陆、获取列表、关注等其他操作。
 
 
 
